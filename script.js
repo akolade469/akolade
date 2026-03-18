@@ -97,12 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
         burger.classList.toggle('toggle');
     });
 
+    // Close menu when a link is clicked
+    navLinksLi.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('nav-active');
+            burger.classList.remove('toggle');
+            navLinksLi.forEach(l => l.style.animation = '');
+        });
+    });
+
     // Add styles for mobile menu
     document.body.insertAdjacentHTML('beforeend', `
         <style>
             @media (max-width: 768px) {
                 .nav-links {
-                    position: absolute;
+                    position: fixed;
                     right: 0px;
                     height: 100vh;
                     top: 0;
@@ -111,25 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    width: 70%;
+                    width: 100%;
                     transform: translateX(100%);
-                    transition: transform 0.5s ease-in;
-                    z-index: 999;
+                    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+                    z-index: 998;
                 }
                 .nav-active {
                     transform: translateX(0%);
                 }
                 .burger {
-                    display: block;
+                    display: block !important;
                     cursor: pointer;
+                    z-index: 1001;
+                    position: relative;
                 }
-                .navLinkFade {
+                @keyframes navLinkFade {
                     from { opacity: 0; transform: translateX(50px); }
                     to { opacity: 1; transform: translateX(0); }
                 }
-                .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+                .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); background-color: var(--clr-primary) !important; }
                 .toggle .line2 { opacity: 0; }
-                .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+                .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); background-color: var(--clr-primary) !important; }
             }
             .burger div {
                 width: 25px;
